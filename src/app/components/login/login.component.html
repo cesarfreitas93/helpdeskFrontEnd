@@ -1,0 +1,25 @@
+<div class="content-wrapper d-flex align-items-center auth login-full-bg" style="height: 100%;">
+    <div class="container-form-login">
+        <form class="col-lg-4 mx-auto" (ngSubmit)="formSubmit()">
+            <mat-card>
+                <mat-card-title>Sistema de Gestión del soporte</mat-card-title><br>
+                <mat-card-subtitle>Ingrese sus credenciales</mat-card-subtitle><br>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Nombre de usuario</mat-label>
+                    <input [(ngModel)]="loginData.username" required name="username" matInput placeholder="Ingrese el nombre de usuario">
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input [(ngModel)]="loginData.password" required name="password" type="password" matInput placeholder="Ingrese su Contraseña." />
+                </mat-form-field>
+
+                <mat-card-actions align="end">
+                    <button mat-raised-button color="primary">Iniciar Sesión</button>
+                    <button mat-raised-button type="reset">Limpiar</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </div>
+</div>

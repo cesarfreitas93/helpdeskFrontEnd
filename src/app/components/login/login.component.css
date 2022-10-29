@@ -1,0 +1,20 @@
+.auth.login-full-bg {
+    background: url(../../../assets/images/login_1.jpg);
+    background-size: cover;
+}
+
+.content-wrapper {
+    padding: 1.5rem 1.7rem;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.align-items-center,
+.navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item {
+    align-items: center!important;
+}
+
+.container-form-login {
+    max-width: 450px;
+    margin: auto;
+}
