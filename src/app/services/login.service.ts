@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { JwtDto } from '../models/jwt-dto';
 import baseUrl from './helper';
 
 @Injectable({
@@ -9,8 +11,8 @@ export class LoginService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getToken(request: any) {
-    return this.httpClient.post(`${baseUrl}/backend/auth/login`, request);
+  public getToken(request: any): Observable<JwtDto> {
+    return this.httpClient.post<JwtDto>(`${baseUrl}/backend/auth/login`, request);
   }
 
   public loginUser(token: any) {
@@ -52,10 +54,18 @@ export class LoginService {
 
   public getUserRole() {
     let user = this.getUser();
+    if (user == undefined || user == null || user == null) {
+      return false;
+    }
     return user.authorities;
   }
 
   public isMasterRol(authoritiesJson:any) {
+
+    if (authoritiesJson == undefined || authoritiesJson == null || authoritiesJson == null) {
+      return false;
+    }
+
     for (let key in authoritiesJson) {
       if (authoritiesJson[key].authority == 'ROLE_MASTER') {
         return true;

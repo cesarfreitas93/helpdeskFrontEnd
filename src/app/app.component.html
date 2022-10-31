@@ -1,1 +1,2 @@
-<router-outlet></router-outlet>
+<app-login *ngIf="!showMenu()"></app-login>
+<app-main *ngIf="showMenu()"></app-main>

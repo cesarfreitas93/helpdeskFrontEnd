@@ -1,1 +1,52 @@
-<router-outlet></router-outlet>
+<div class="wrap grid-container">
+    <div class="menu-app">
+        <mat-toolbar color="default">
+            <button mat-icon-button>
+                    <mat-icon (click)="menuMain.toggle();">menu</mat-icon>
+                </button>
+
+            <span>Gestión del Soporte</span>
+
+            <span class="example-spacer"></span>
+
+            <button mat-icon-button [matMenuTriggerFor]="menuAccount">
+                    <mat-icon>account_circle</mat-icon>
+                </button>
+
+            <mat-menu #menuAccount="matMenu">
+                <button mat-menu-item> <!-- disabled -->
+                      <mat-icon>manage_accounts</mat-icon>
+                      <span>Perfil</span>
+                    </button>
+                <button mat-menu-item>
+                      <mat-icon>logout</mat-icon>
+                      <span>Cerrar Sesión</span>
+                    </button>
+            </mat-menu>
+        </mat-toolbar>
+    </div>
+    <div class="body-app">
+        <mat-sidenav-container>
+            <mat-sidenav #menuMain>
+                <mat-nav-list style="width: 270px;">
+                    <a mat-list-item>
+                        <mat-icon style="margin-right: 8px; color: darkgoldenrod;">source</mat-icon><span>Proyectos</span></a>
+                    <a mat-list-item>
+                        <mat-icon style="margin-right: 8px; color: purple;">groups</mat-icon><span>Equipos</span></a>
+                    <a mat-list-item>
+                        <mat-icon style="margin-right: 8px; color: darkgreen;">run_circle</mat-icon><span>Sprints</span></a>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item>
+                        <mat-icon style="margin-right: 8px; color: tomato;">category</mat-icon><span>Parámetros</span></a>
+                    <a mat-list-item>
+                        <mat-icon style="margin-right: 8px; color: blueviolet;">groups_3</mat-icon><span>Usuarios</span></a>
+                    <a mat-list-item>
+                        <mat-icon style="margin-right: 8px; color: brown;">dashboard</mat-icon><span>Dashboard</span></a>
+                </mat-nav-list>
+            </mat-sidenav>
+            <mat-sidenav-content fullscreen style="height: 100%">
+                <router-outlet></router-outlet>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </div>
+</div>

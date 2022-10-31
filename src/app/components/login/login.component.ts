@@ -24,6 +24,9 @@ export class LoginComponent implements OnInit {
     private loginService:LoginService) { }
 
   ngOnInit(): void {
+
+    
+
   }
 
   formSubmit() {
@@ -41,8 +44,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loginService.getToken(this.loginData).subscribe(
-      (data:any) => {
+    this.loginService.getToken(this.loginData).subscribe((data:any) => {
         console.log(data);
         this.loginService.loginUser(data.token);
         this.loginService.setUser(data);
@@ -57,10 +59,5 @@ export class LoginComponent implements OnInit {
       }, (error) => {
         console.log(error);
       });
-
-  }
-
-
-
-
+    }
 }

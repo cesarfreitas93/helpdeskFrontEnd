@@ -1,0 +1,41 @@
+.wrap {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+@media (max-width: 599px) {
+    .grid-container {
+        grid-template-rows: 56px 1fr;
+    }
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 64px 1fr;
+    grid-template-areas: 'header' 'main';
+    height: 100vh;
+}
+
+.menu-app {
+    -webkit-box-shadow: 0px 1px 1px rgb(206, 206, 206);
+    ;
+    -moz-box-shadow: 0px 1px 1px rgb(206, 206, 206);
+    ;
+    box-shadow: 0px 1px 1px rgb(206, 206, 206);
+    ;
+    z-index: 10;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-drawer-container {
+    height: 100%;
+}
+
+.item-menu {
+    width: 30px;
+}
