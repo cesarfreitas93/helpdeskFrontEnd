@@ -1,0 +1,29 @@
+<form class="col-lg-4 mx-auto" (ngSubmit)="formSubmit(data.id)">
+    <h1 mat-dialog-title>Registrar Ticket</h1>
+    <div mat-dialog-content>
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nombre de la Ticket</mat-label>
+            <input [(ngModel)]="ticket.name" required name="name" matInput placeholder="Ingrese el nombre del ticket">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <textarea required [(ngModel)]="ticket.description" name="description" matInput placeholder="Descripción del nuevo ticket..."></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Prioridad</mat-label>
+            <mat-select [(ngModel)]="ticket.category" required name="categories">
+                <mat-option *ngFor="let cat of listCategories" [value]="cat.id">
+                    {{cat.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button type="reset">Limpiar</button>
+        <button mat-button>Guardar</button>
+    </div>
+</form>

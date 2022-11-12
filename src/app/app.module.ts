@@ -21,7 +21,18 @@ import { MainComponent } from './components/main/main.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { ProjectComponent } from './components/project/project.component';
+import { ProjectComponent, FormDialogModal } from './components/project/project.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TaskComponent } from './components/task/task.component';
+import { TicketitComponent } from './components/ticketit/ticketit.component';
+import { BoardComponent, FormTaskModal, FormTicketModal } from './components/board/board.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MatSelectModule} from '@angular/material/select';
+import { SprintComponent } from './components/sprint/sprint.component';
+import { ParameterComponent } from './components/parameter/parameter.component';
+import { PeopleComponent } from './components/people/people.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +40,17 @@ import { ProjectComponent } from './components/project/project.component';
     LoginComponent,
     DashboardComponent,
     MainComponent,
-    ProjectComponent
+    ProjectComponent,
+    FormDialogModal,
+    TaskComponent,
+    TicketitComponent,
+    BoardComponent,
+    FormTaskModal,
+    FormTicketModal,
+    SprintComponent,
+    ParameterComponent,
+    PeopleComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +67,11 @@ import { ProjectComponent } from './components/project/project.component';
     MatIconModule,
     MatMenuModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule,
+    MatExpansionModule,
+    DragDropModule,
+    MatSelectModule
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

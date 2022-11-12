@@ -1,0 +1,20 @@
+<form class="col-lg-4 mx-auto" (ngSubmit)="formSubmit()">
+    <h1 mat-dialog-title>Registrar Proyecto</h1>
+    <div mat-dialog-content>
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nombre del proyecto</mat-label>
+            <input [(ngModel)]="project.name" required name="name" matInput placeholder="Ingrese el nombre del proyecto">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <textarea required [(ngModel)]="project.description" name="description" matInput placeholder="Descripción del nuevo proyecto..."></textarea>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button type="reset">Limpiar</button>
+        <button mat-button>Guardar</button>
+    </div>
+</form>

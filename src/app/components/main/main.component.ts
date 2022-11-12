@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-main',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router:Router,
+    private loginService: LoginService
+  ) { }
 
   ngOnInit(): void {
   }
 
+  handleLogout() {
+    if (this.loginService.logout()) {
+      this.router.navigate(['login']);
+    }
+  }
+  
 }

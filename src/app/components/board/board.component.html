@@ -1,0 +1,131 @@
+<div id="board">
+    <div class="example-action-buttons">
+        <mat-form-field appearance="outline">
+            <mat-label>Periodo</mat-label>
+            <mat-select name="sprints" [(value)]="sprintDefalut.id">
+                <mat-option *ngFor="let item of sprints" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button class="btn-board-action" mat-button color="primary" (click)="accordion.openAll()">
+            <mat-icon>unfold_more</mat-icon>
+            Expandir Todo
+        </button>
+        <button class="btn-board-action" mat-button color="primary" (click)="accordion.closeAll()">
+            <mat-icon>unfold_less</mat-icon>
+            Agrupar Todo
+        </button>
+        <button class="btn-board-action" mat-button color="primary" (click)="openTicketForm()">
+            <mat-icon>add</mat-icon>
+            CREAR TICKET
+        </button>
+    </div>
+    <div class="example-headers-align">
+        <div class="panel-h">
+            <div class="panel-h-b">
+                <div class="board-h" style="text-align: center;">
+                    Nuevo
+                </div>
+                <div class="board-h" style="text-align: center;">
+                    En Progreso
+                </div>
+                <div class="board-h" style="text-align: center;">
+                    Completado
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel class="ticket-item" *ngFor="let ticket of tickets">
+            <mat-expansion-panel-header>
+
+                <mat-panel-title>
+                    {{ticket.name}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{ticket.description}}
+                </mat-panel-description>
+
+            </mat-expansion-panel-header>
+
+            <div class="panel-b-b">
+
+                <div class="board-d board-d-news" cdkDropList #newList="cdkDropList" (cdkDropListDropped)="drop($event)" [cdkDropListData]="ticket.news" [cdkDropListConnectedTo]="[progressList]">
+
+                    <div class="task" *ngFor="let item of ticket.news" id="{{item.id}}" cdkDrag>
+                        <div class="item-select-options">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Borrar</span>
+                                </button>
+                                <button mat-menu-item>
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Editar</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                        <p class="task-title">{{item.name}}</p>
+                        <p class="task-detail">{{item.description}}</p>
+                    </div>
+
+                    <button mat-mini-fab (click)="openDialog(ticket.id)" color="accent" class="btn-add-action">
+                        <mat-icon>add</mat-icon>
+                    </button>
+
+                </div>
+                <div class="board-d board-d-progress" cdkDropList #progressList="cdkDropList" (cdkDropListDropped)="drop($event)" [cdkDropListData]="ticket.progress" [cdkDropListConnectedTo]="[completeList, newList]">
+
+                    <div class="task" *ngFor="let item of ticket.progress" id="{{item.id}}" cdkDrag>
+                        <div class="item-select-options">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Borrar</span>
+                                </button>
+                                <button mat-menu-item>
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Editar</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                        <p class="task-title">{{item.name}}</p>
+                        <p class="task-detail">{{item.description}}</p>
+                    </div>
+
+                </div>
+                <div class="board-d board-d-complete" cdkDropList #completeList="cdkDropList" (cdkDropListDropped)="drop($event)" [cdkDropListData]="ticket.complete" [cdkDropListConnectedTo]="[progressList]">
+
+                    <div class="task" *ngFor="let item of ticket.complete" id="{{item.id}}" cdkDrag>
+                        <div class="item-select-options">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Borrar</span>
+                                </button>
+                                <button mat-menu-item>
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Editar</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                        <p class="task-title">{{item.name}}</p>
+                        <p class="task-detail">{{item.description}}</p>
+                    </div>
+
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>

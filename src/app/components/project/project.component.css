@@ -1,0 +1,13 @@
+.item-list {
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(128, 128, 128, 0.418);
+}
+
+#btn-add-action {
+    margin-bottom: 0;
+    position: fixed;
+    right: 20px;
+    bottom: 3rem;
+}

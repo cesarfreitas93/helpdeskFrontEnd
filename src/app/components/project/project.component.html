@@ -1,1 +1,16 @@
-<p>project works!</p>
+<mat-card *ngFor="let item of projects" class="item-list">
+    <mat-card-title>{{item.name}}</mat-card-title>
+    <mat-card-subtitle>FI: {{item.createAt | date: 'dd/MM/yyyy'}}</mat-card-subtitle>
+    <mat-card-subtitle>Total de tareas: 20</mat-card-subtitle>
+    <mat-card-content>
+        <p>{{item.description}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-stroked-button color="primary">EDITAR</button>
+        <button mat-stroked-button color="accent" (click)="showBoard(item.id)">VER TAREAS</button>
+    </mat-card-actions>
+</mat-card>
+
+<button mat-fab (click)="openDialog()" color="accent" id="btn-add-action">
+    <mat-icon>add</mat-icon>
+</button>

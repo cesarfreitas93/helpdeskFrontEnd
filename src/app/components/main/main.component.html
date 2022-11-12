@@ -1,6 +1,6 @@
 <div class="wrap grid-container">
     <div class="menu-app">
-        <mat-toolbar color="default">
+        <mat-toolbar>
             <button mat-icon-button>
                     <mat-icon (click)="menuMain.toggle();">menu</mat-icon>
                 </button>
@@ -14,38 +14,40 @@
                 </button>
 
             <mat-menu #menuAccount="matMenu">
-                <button mat-menu-item> <!-- disabled -->
+                <button mat-menu-item [routerLink]="['/profile']"> <!-- disabled -->
                       <mat-icon>manage_accounts</mat-icon>
                       <span>Perfil</span>
-                    </button>
-                <button mat-menu-item>
+                </button>
+                <button mat-menu-item (click)="handleLogout()">
                       <mat-icon>logout</mat-icon>
                       <span>Cerrar Sesión</span>
                     </button>
             </mat-menu>
         </mat-toolbar>
     </div>
-    <div class="body-app">
+    <div>
         <mat-sidenav-container>
             <mat-sidenav #menuMain>
                 <mat-nav-list style="width: 270px;">
-                    <a mat-list-item>
+                    <a mat-list-item [routerLink]="['/project']">
                         <mat-icon style="margin-right: 8px; color: darkgoldenrod;">source</mat-icon><span>Proyectos</span></a>
                     <a mat-list-item>
                         <mat-icon style="margin-right: 8px; color: purple;">groups</mat-icon><span>Equipos</span></a>
-                    <a mat-list-item>
+                    <a mat-list-item [routerLink]="['/sprints']">
                         <mat-icon style="margin-right: 8px; color: darkgreen;">run_circle</mat-icon><span>Sprints</span></a>
                     <mat-divider></mat-divider>
-                    <a mat-list-item>
+                    <a mat-list-item [routerLink]="['/parameters']">
                         <mat-icon style="margin-right: 8px; color: tomato;">category</mat-icon><span>Parámetros</span></a>
-                    <a mat-list-item>
-                        <mat-icon style="margin-right: 8px; color: blueviolet;">groups_3</mat-icon><span>Usuarios</span></a>
-                    <a mat-list-item>
+                    <a mat-list-item [routerLink]="['/people']">
+                        <mat-icon style="margin-right: 8px; color: blueviolet;">groups_3</mat-icon><span>Personas</span></a>
+                    <a mat-list-item [routerLink]="['/main']">
                         <mat-icon style="margin-right: 8px; color: brown;">dashboard</mat-icon><span>Dashboard</span></a>
                 </mat-nav-list>
             </mat-sidenav>
             <mat-sidenav-content fullscreen style="height: 100%">
-                <router-outlet></router-outlet>
+                <div class="body-app">
+                    <router-outlet></router-outlet>
+                </div>
             </mat-sidenav-content>
         </mat-sidenav-container>
     </div>
