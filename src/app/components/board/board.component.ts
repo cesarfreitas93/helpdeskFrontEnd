@@ -23,6 +23,7 @@ export interface TaskData {
 export interface TicketData {
   id : number;
   ticket: Ticket;
+  sprintId: number;
 }
 
 @Component({
@@ -40,6 +41,7 @@ export class BoardComponent implements OnInit {
   tickets:Ticket[] = new Array;
   sprints:SprintDto[] = new Array;
   task!: Task;
+  ticket: Ticket = new Ticket("","");
 
   sprintDefalut: SprintDto = new SprintDto();
 
@@ -55,7 +57,12 @@ export class BoardComponent implements OnInit {
     this.sprintService.getSprint().subscribe(response =>{
       this.sprints = response.data.content;
       console.log(this.sprints)
-      this.sprintDefalut = this.sprints[0];
+      let sprintDefaultId = localStorage.getItem('gestion-soporte-ti-default-sprint')
+      if (sprintDefaultId == undefined || sprintDefaultId == '' || sprintDefaultId == null) {
+        this.sprintDefalut = this.sprints[0];
+      } else {
+        this.sprintDefalut.id = Number(sprintDefaultId);
+      }
       this.loadBoard();
     },error => console.log(error));
   }
@@ -94,17 +101,23 @@ export class BoardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(this.tickets);
       console.log(result)
+      if (result.code === 1) {
+        const resultado = this.tickets.find( ticket => ticket.id === result.data.ticket );
+        console.log(resultado);
+        this.tickets.find( ticket => ticket.id === result.data.ticket )?.news.unshift(result.data);
+      }
     });
   }
 
   openTicketForm(): void {
     const dialogRef = this.dialog.open(FormTicketModal, {
-      data: {id: this.id}
+      data: {id: this.id, ticket: new Ticket("",""), sprintId: this.sprintDefalut.id}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
+      this.tickets.unshift(result);
     });
   }
 
@@ -130,6 +143,14 @@ export class BoardComponent implements OnInit {
   private updateTaskStatus(idTask:number, task: Task, idStatus: number): void {
     task.status = idStatus;
     this.boardService.updateTask(idTask, task).subscribe();
+  }
+
+  selectSprint(event:Event) {
+    console.log((event.target as HTMLSelectElement).value);
+    this.sprintDefalut.id = Number((event.target as HTMLSelectElement).value);
+    localStorage.setItem('gestion-soporte-ti-default-sprint', (event.target as HTMLSelectElement).value);
+    this.tickets = new Array;
+    this.loadBoard();
   }
 }
 
@@ -160,10 +181,7 @@ export class FormTaskModal {
         return;
       } else {
         this.boardService.saveTask(this.task).subscribe((response:Response) => {
-          console.log(response);
-          console.log("--------------------");
-          this.data.taskResponse = response.data;
-          this.dialogRef.close();
+          this.dialogRef.close(response);
         }, (error) => {
           console.log(error);
         });
@@ -212,9 +230,10 @@ export class FormTicketModal implements OnInit {
     },error => console.log(error));
   }
 
-    formSubmit(idProject: number) {
+    formSubmit(idProject: number, idSprint:number) {
       this.ticket.project = idProject;
       this.ticket.status = EnumStatus.NEW;
+      this.ticket.sprint = idSprint;
 
       console.log(this.ticket);
 
@@ -226,9 +245,7 @@ export class FormTicketModal implements OnInit {
       } else {
         this.boardService.saveTicket(this.ticket).subscribe((response:Response) => {
           console.log(response);
-          console.log("--------------------");
-          this.data.ticket = response.data;
-          this.dialogRef.close();
+          this.dialogRef.close(response.data);
         }, (error) => {
           console.log(error);
         });

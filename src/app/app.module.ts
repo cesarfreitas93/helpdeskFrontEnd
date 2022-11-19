@@ -5,13 +5,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MatInputModule} from '@angular/material/input';
 import { MatButtonModule} from '@angular/material/button';
 import { MatFormFieldModule} from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatCardModule} from '@angular/material/card';
 import { MatToolbarModule} from '@angular/material/toolbar';
@@ -33,7 +34,14 @@ import { SprintComponent } from './components/sprint/sprint.component';
 import { ParameterComponent } from './components/parameter/parameter.component';
 import { PeopleComponent } from './components/people/people.component';
 import { ProfileComponent } from './components/profile/profile.component';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { PersonFormComponent } from './components/person-form/person-form.component';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,16 +58,20 @@ import { ProfileComponent } from './components/profile/profile.component';
     SprintComponent,
     ParameterComponent,
     PeopleComponent,
-    ProfileComponent
+    ProfileComponent,
+    PersonFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgxChartsModule,
     BrowserAnimationsModule,
+    SimpleNotificationsModule.forRoot(),
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatSnackBarModule,
     MatCardModule,
@@ -71,9 +83,14 @@ import { ProfileComponent } from './components/profile/profile.component';
     MatDialogModule,
     MatExpansionModule,
     DragDropModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatChipsModule,
+    MatAutocompleteModule,
   ],
-  providers: [authInterceptorProviders],
+  providers: [authInterceptorProviders, {provide: MAT_DATE_LOCALE, useValue: 'es-PE'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

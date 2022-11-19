@@ -4,6 +4,7 @@ import baseUrl from 'src/app/services/helper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
     private router:Router,
     private http:HttpClient,
     private snack:MatSnackBar,
+    private notificationService: NotificationsService,
     private loginService:LoginService) { }
 
   ngOnInit(): void {
@@ -60,6 +62,17 @@ export class LoginComponent implements OnInit {
 
       }, (error) => {
         console.log(error);
+        this.notificacionError("Error", "Credenciales no válidas!");
+
+      });
+    }
+
+    notificacionError( titulo: string, mensaje: string) {
+      this.notificationService.error( titulo, mensaje, {
+        position: ['bottom', 'right'],
+        timeOut: 2000,
+        animate: 'fade',
+        showProgressBar: true
       });
     }
 }

@@ -1,1 +1,24 @@
-<p>people works!</p>
+<mat-card class="card-width  mat-elevation-z8 mat-mb" *ngFor="let item of persons">
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-subtitle># Documento: {{item.docnumber}}</mat-card-subtitle>
+            <mat-card-title>{{item.name}}</mat-card-title>
+            <img mat-card-sm-image src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png">
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-card-subtitle>username: {{item.user.username}}</mat-card-subtitle>
+        <mat-chip-list>
+            <mat-chip *ngFor="let rol of item.user.roles">{{rol.rolName}}</mat-chip>
+        </mat-chip-list>
+        <br>
+        <mat-divider></mat-divider>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-button>EDITAR</button>
+    </mat-card-actions>
+</mat-card>
+
+<button mat-fab (click)="registrarPersona()" color="accent" id="btn-add-action">
+    <mat-icon>add</mat-icon>
+</button>

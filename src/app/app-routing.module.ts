@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { ParameterComponent } from './components/parameter/parameter.component';
 import { PeopleComponent } from './components/people/people.component';
+import { PersonFormComponent } from './components/person-form/person-form.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProjectComponent } from './components/project/project.component';
 import { SprintComponent } from './components/sprint/sprint.component';
@@ -45,13 +46,13 @@ const routes: Routes = [
     canActivate : [MasterGuard] 
   },
   {
-    path : 'parameters',
-    component : ParameterComponent,
+    path : 'people',
+    component : PeopleComponent,
     canActivate : [MasterGuard] 
   },
   {
-    path : 'people',
-    component : PeopleComponent,
+    path : 'people/register',
+    component : PersonFormComponent,
     canActivate : [MasterGuard] 
   },
   {

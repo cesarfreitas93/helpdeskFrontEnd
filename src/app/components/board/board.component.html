@@ -1,12 +1,12 @@
 <div id="board">
     <div class="example-action-buttons">
+
         <mat-form-field appearance="outline">
-            <mat-label>Periodo</mat-label>
-            <mat-select name="sprints" [(value)]="sprintDefalut.id">
-                <mat-option *ngFor="let item of sprints" [value]="item.id">
-                    {{item.name}}
-                </mat-option>
-            </mat-select>
+            <mat-label>Sprint</mat-label>
+            <select matNativeControl (change)="selectSprint($event)">
+              <option *ngFor="let option of sprints" [value]="option.id"
+                      [selected]="sprintDefalut.id === option.id">{{ option.name }}</option>
+            </select>
         </mat-form-field>
 
         <button class="btn-board-action" mat-button color="primary" (click)="accordion.openAll()">
@@ -45,9 +45,6 @@
                 <mat-panel-title>
                     {{ticket.name}}
                 </mat-panel-title>
-                <mat-panel-description>
-                    {{ticket.description}}
-                </mat-panel-description>
 
             </mat-expansion-panel-header>
 

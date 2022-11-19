@@ -1,0 +1,71 @@
+<mat-card class="card-width  mat-elevation-z8 mat-mb">
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>Formulario de registro de nuevo personal</mat-card-title>
+            <img mat-card-sm-image src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png">
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
+        <form class="col-lg-4 mx-auto" (ngSubmit)="formSubmit()">
+            <div mat-dialog-content>
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Nombre de usuario</mat-label>
+                    <input [(ngModel)]="persona.username" required name="username" matInput placeholder="Ingrese el nombre de usuario">
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input [(ngModel)]="persona.password" required name="password" matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese la Contraseña.">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Nombres completos</mat-label>
+                    <input [(ngModel)]="persona.name" required name="name" matInput placeholder="Ingrese el nombre de la persona">
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Número de documento de identidad</mat-label>
+                    <input [(ngModel)]="persona.docnumber" maxlength="8" required name="docnumber" matInput placeholder="Ingrese el número de documento">
+                </mat-form-field>
+
+                <mat-form-field class="example-chip-list" appearance="outline">
+                    <mat-label>Asignar Roles</mat-label>
+                    <mat-chip-list #chipList aria-label="Fruit selection">
+                        <mat-chip *ngFor="let fruit of fruits" (removed)="remove(fruit)">
+                            {{fruit}}
+                            <button matChipRemove>
+                          <mat-icon>cancel</mat-icon>
+                        </button>
+                        </mat-chip>
+                        <input placeholder="Nuevo Rol..." #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                            {{fruit}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div mat-dialog-actions>
+                <button mat-button mat-dialog-close>Cancelar</button>
+                <button mat-button type="reset">Limpiar</button>
+                <button mat-button>Guardar</button>
+            </div>
+        </form>
+
+    </mat-card-content>
+</mat-card>
+
+<button mat-fab (click)="volverListado()" color="primary" id="btn-add-action">
+    <mat-icon>arrow_back</mat-icon>
+</button>
+
+<simple-notifications></simple-notifications>

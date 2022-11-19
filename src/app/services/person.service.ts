@@ -1,25 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { UserService } from './user.service';
 import { Observable } from 'rxjs';
 import { Response } from '../models/response';
-import { SprintDto } from '../models/sprint';
 import baseUrl from './helper';
-import { UserService } from './user.service';
+import { PersonReqDto } from '../models/personReq';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SprintService {
+export class PersonService {
 
   constructor(private httpClient: HttpClient, private userService:UserService) { }
 
-  public getSprint(): Observable<Response> {
+  public getPersons() : Observable<Response> {
     const authOption = this.userService.getAuthenticatedHeader();
-    return this.httpClient.get<Response>(`${baseUrl}/backend/v1/sprint/all`, authOption);
+    return this.httpClient.get<Response>(`${baseUrl}/backend/v1/person/all`, authOption);
   }
 
-  public saveSprint(request:SprintDto): Observable<Response> {
+  public saveProject(request:PersonReqDto): Observable<Response> {
     const authOption = this.userService.getAuthenticatedHeader();
-    return this.httpClient.post<Response>(`${baseUrl}/backend/v1/sprint`, request, authOption);
+    return this.httpClient.post<Response>(`${baseUrl}/backend/v1/person`, request, authOption);
   }
 }

@@ -1,7 +1,6 @@
 .card-width {
     margin: auto;
     max-width: 450px;
-    margin-bottom: 2rem;
 }
 
 .mat-card-header {
@@ -14,4 +13,8 @@
     position: fixed;
     right: 20px;
     bottom: 3rem;
+}
+
+.example-chip-list {
+    width: 100%;
 }

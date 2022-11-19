@@ -1,1 +1,23 @@
-<p>dashboard works!</p>
+<div class="body">
+    <mat-form-field appearance="outline">
+        <mat-label>Sprint</mat-label>
+        <select matNativeControl (change)="selectSprint($event)">
+            <option *ngFor="let option of sprints" [value]="option.id"
+                    [selected]="sprintDefalut.id === option.id">{{ option.name }}</option>
+        </select>
+    </mat-form-field>
+
+
+    <mat-card class="app-sprint mat-elevation-z8">
+        <mat-card-title-group>
+            <mat-card-title>Informe del estado de tareas por sprint</mat-card-title>
+            <mat-card-subtitle>Reporte Gráfico</mat-card-subtitle>
+            <mat-card-subtitle>Periodo: {{sprintDefalut.beginDate}}</mat-card-subtitle>
+            <img mat-card-sm-image src="https://cdn-icons-png.flaticon.com/512/423/423786.png">
+        </mat-card-title-group>
+        <mat-card-content>
+            <ngx-charts-advanced-pie-chart style="font: menu !important;" [view]="view" scheme="picnic" [results]="single" [gradient]="gradient" (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+            </ngx-charts-advanced-pie-chart>
+        </mat-card-content>
+    </mat-card>
+</div>
