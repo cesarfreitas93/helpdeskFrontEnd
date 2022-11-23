@@ -1,27 +1,44 @@
 <div id="board">
-    <div class="example-action-buttons">
+    <mat-card class="app-sprint mat-elevation-z8">
+        <div class="example-action-buttons">
+            <div id="header">
+                <mat-form-field appearance="outline" style="margin-right: 10px;">
+                    <mat-label>Sprint</mat-label>
+                    <select matNativeControl (change)="selectSprint($event)">
+                      <option *ngFor="let option of sprints" [value]="option.id"
+                              [selected]="sprintDefalut.id === option.id">{{ option.name }}</option>
+                    </select>
+                </mat-form-field>
+    
+                <mat-form-field appearance="outline" style="margin-right: 10px;">
+                    <mat-label>Persona Asignada</mat-label>
+                    <select matNativeControl (change)="selectPerson($event)">
+                      <option *ngFor="let option of persons" [value]="option.id"
+                              [selected]="personDefault.id === option.id">{{ option.name }}</option>
+                    </select>
+                </mat-form-field>
+    
+                <button mat-mini-fab mat-button color="primary" (click)="accordion.openAll()" style="margin-right: 10px;">
+                    <mat-icon>unfold_more</mat-icon>
+                </button>
+                
+                <button mat-mini-fab mat-button color="accent"  (click)="accordion.closeAll()" style="margin-right: 10px;">
+                    <mat-icon>unfold_less</mat-icon>
+                </button>
+        
+                <button class="btn-board-action" mat-raised-button color="warn" (click)="openTicketForm()">
+                    <mat-icon>add</mat-icon>
+                    CREAR TICKET
+                </button>
+            </div>
+            
+            <div id="extras">
+                {{sprintDefalut.beginDate | date: 'd MMMM'}} - {{sprintDefalut.endDate | date: 'd MMMM'}}
+            </div>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Sprint</mat-label>
-            <select matNativeControl (change)="selectSprint($event)">
-              <option *ngFor="let option of sprints" [value]="option.id"
-                      [selected]="sprintDefalut.id === option.id">{{ option.name }}</option>
-            </select>
-        </mat-form-field>
-
-        <button class="btn-board-action" mat-button color="primary" (click)="accordion.openAll()">
-            <mat-icon>unfold_more</mat-icon>
-            Expandir Todo
-        </button>
-        <button class="btn-board-action" mat-button color="primary" (click)="accordion.closeAll()">
-            <mat-icon>unfold_less</mat-icon>
-            Agrupar Todo
-        </button>
-        <button class="btn-board-action" mat-button color="primary" (click)="openTicketForm()">
-            <mat-icon>add</mat-icon>
-            CREAR TICKET
-        </button>
-    </div>
+        </div>
+    </mat-card>
+    <br><br>
     <div class="example-headers-align">
         <div class="panel-h">
             <div class="panel-h-b">
@@ -43,7 +60,7 @@
             <mat-expansion-panel-header>
 
                 <mat-panel-title>
-                    {{ticket.name}}
+                    <b style="margin-right: 5px;">{{ticket.id}}</b> {{ticket.name}}
                 </mat-panel-title>
 
             </mat-expansion-panel-header>
@@ -72,7 +89,7 @@
                         <p class="task-detail">{{item.description}}</p>
                     </div>
 
-                    <button mat-mini-fab (click)="openDialog(ticket.id)" color="accent" class="btn-add-action">
+                    <button mat-mini-fab (click)="openDialog(ticket.id)" color="accent" style="background-color: green;" class="btn-add-action">
                         <mat-icon>add</mat-icon>
                     </button>
 
@@ -126,3 +143,4 @@
             </div>
         </mat-expansion-panel>
     </mat-accordion>
+</div>

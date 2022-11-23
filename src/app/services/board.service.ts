@@ -16,9 +16,9 @@ export class BoardService {
 
   constructor(private httpClient: HttpClient, private userService:UserService) { }
 
-  public getBoardByProjectAndSprint(idProject:number, idSprint:number): Observable<Response> {
+  public getBoardByProjectAndSprint(idProject:number, idSprint:number, idPerson:number): Observable<Response> {
     const authOption = this.userService.getAuthenticatedHeader();
-    return this.httpClient.get<Response>(`${baseUrl}/backend/v1/ticket/project/${idProject}/sprint/${idSprint}`, authOption);
+    return this.httpClient.get<Response>(`${baseUrl}/backend/v1/ticket/project/${idProject}/sprint/${idSprint}/person/${idPerson}`, authOption);
   }
 
   public saveTask(request:Task): Observable<Response> {

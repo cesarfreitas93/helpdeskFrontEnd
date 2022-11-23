@@ -1,4 +1,7 @@
-.app-sprint {
+#body-app {
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    max-width: 1200px;
     margin: auto;
-    max-width: 450px;
 }

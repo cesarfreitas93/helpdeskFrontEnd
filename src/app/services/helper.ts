@@ -1,2 +1,2 @@
-let baseUrl = 'https://helpdesk-farell-backend-spring.herokuapp.com';
+let baseUrl = 'https://proyecto-gs-backend.herokuapp.com';
 export default baseUrl;

@@ -14,6 +14,9 @@ import { StatusDto } from 'src/app/models/status';
 import { CategoriesDto } from 'src/app/models/categories';
 import { SprintService } from 'src/app/services/sprint.service';
 import { SprintDto } from 'src/app/models/sprint';
+import { PersonDto } from 'src/app/models/person';
+import { PersonService } from 'src/app/services/person.service';
+import { FormControl } from '@angular/forms';
 
 export interface TaskData {
   id: number;
@@ -42,18 +45,21 @@ export class BoardComponent implements OnInit {
   sprints:SprintDto[] = new Array;
   task!: Task;
   ticket: Ticket = new Ticket("","");
-
+  persons: PersonDto[] = new Array;
   sprintDefalut: SprintDto = new SprintDto();
+  personDefault: PersonDto = new PersonDto();
+  personCtrl = new FormControl;
 
   constructor(
     private boardService: BoardService,
     private router:Router,
     private sprintService:SprintService,
     public dialog: MatDialog,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private personService: PersonService
   ) { }
 
-  loadData(){
+  loadSprints(){
     this.sprintService.getSprint().subscribe(response =>{
       this.sprints = response.data.content;
       console.log(this.sprints)
@@ -63,22 +69,29 @@ export class BoardComponent implements OnInit {
       } else {
         this.sprintDefalut.id = Number(sprintDefaultId);
       }
-      this.loadBoard();
+      this.getSprintById(this.sprintDefalut.id);
+      this.loadPersons();
     },error => console.log(error));
   }
 
+  getSprintById(id:number) {
+    this.sprintService.getSprintById(id).subscribe(result => {
+      this.sprintDefalut = result.data;
+    }, error => console.log(error));
+  }
+
   loadBoard() {
-    this.boardService.getBoardByProjectAndSprint(this.id, this.sprintDefalut.id).subscribe(response =>{
+    console.log(this.id, this.sprintDefalut.id, this.personDefault.id)
+    this.boardService.getBoardByProjectAndSprint(this.id, this.sprintDefalut.id, this.personDefault.id).subscribe(response =>{
       this.response = response;
       this.tickets = response.data.content;
       console.log(this.tickets)
-
     },error => console.log(error));
   }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.loadData();
+    this.loadSprints();
   }
 
   drop(event: CdkDragDrop<Task[]>) {
@@ -103,6 +116,10 @@ export class BoardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(this.tickets);
       console.log(result)
+      let typeResult = typeof result;
+      console.log(typeResult);
+      if (typeResult === 'undefined') {return;}
+      if (typeResult === 'string') {return;}
       if (result.code === 1) {
         const resultado = this.tickets.find( ticket => ticket.id === result.data.ticket );
         console.log(resultado);
@@ -117,7 +134,12 @@ export class BoardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.tickets.unshift(result);
+      let typeResult = typeof result;
+      console.log(typeResult);
+      if (typeResult === 'undefined') {return;}
+      if (typeResult != 'string') {
+        this.tickets.unshift(result);
+      }
     });
   }
 
@@ -150,6 +172,27 @@ export class BoardComponent implements OnInit {
     this.sprintDefalut.id = Number((event.target as HTMLSelectElement).value);
     localStorage.setItem('gestion-soporte-ti-default-sprint', (event.target as HTMLSelectElement).value);
     this.tickets = new Array;
+    this.getSprintById(this.sprintDefalut.id);
+    this.loadBoard();
+  }
+
+  loadPersons() {
+    this.personService.getPersons().subscribe(result => {
+      this.persons = result.data.content;
+      let personDefaultId = localStorage.getItem('gestion-soporte-ti-default-person')
+      if (personDefaultId == undefined || personDefaultId == '' || personDefaultId == null) {
+        this.personDefault = this.persons[0];
+      } else {
+        this.personDefault.id = Number(personDefaultId);
+      }
+      this.loadBoard();
+    },error => console.log(error));
+  }
+
+  selectPerson(event:Event) {
+    console.log((event.target as HTMLSelectElement).value);
+    localStorage.setItem('gestion-soporte-ti-default-person', (event.target as HTMLSelectElement).value);
+    this.personDefault.id = Number((event.target as HTMLSelectElement).value);
     this.loadBoard();
   }
 }
@@ -158,16 +201,41 @@ export class BoardComponent implements OnInit {
   selector: 'app-task-modalForm',
   templateUrl: './new-task-modal.html',
 })
-export class FormTaskModal {
+export class FormTaskModal implements OnInit {
 
   task: Task = new Task("","");
+  persons: PersonDto[] = new Array;
+  personDefault: PersonDto = new PersonDto();
 
   constructor (
     private boardService:BoardService,
     private snack:MatSnackBar,
     public dialogRef: MatDialogRef<FormTaskModal>,
+    private personService: PersonService,
     @Inject(MAT_DIALOG_DATA) public data:TaskData,
     ) {}
+
+    ngOnInit(): void {
+      this.loadPersons();
+    }
+
+    loadPersons() {
+      this.personService.getPersons().subscribe(result => {
+        this.persons = result.data.content;
+        let personDefaultId = localStorage.getItem('gestion-soporte-ti-default-person')
+        if (personDefaultId == undefined || personDefaultId == '' || personDefaultId == null) {
+          this.personDefault = this.persons[0];
+        } else {
+          this.personDefault.id = Number(personDefaultId);
+        }
+        console.log(this.personDefault.id);
+      },error => console.log(error));
+    }
+  
+    selectPerson(event:Event) {
+      console.log((event.target as HTMLSelectElement).value);
+      this.personDefault.id =  Number((event.target as HTMLSelectElement).value);
+    }
 
     formSubmit(ticket:number) {
       this.task.status = EnumStatus.NEW;
@@ -204,17 +272,25 @@ export class FormTicketModal implements OnInit {
   response:Response = new Response();
   listCategories: CategoriesDto[] = new Array;
   sprints:SprintDto[] = new Array;
+
+  persons: PersonDto[] = new Array;
+  sprintDefalut: SprintDto = new SprintDto();
+  personDefault: PersonDto = new PersonDto();
+
   constructor (
     private boardService:BoardService,
     private sprintService:SprintService,
     private parametersService: ParametersService,
     private snack:MatSnackBar,
     public dialogRef: MatDialogRef<FormTaskModal>,
+    private personService: PersonService,
     @Inject(MAT_DIALOG_DATA) public data: TicketData,
     ) {}
 
   ngOnInit(): void {
     this.loadParameters();
+    this.loadSprints();
+    this.loadPersons();
   }
 
   loadParameters(){
@@ -223,17 +299,46 @@ export class FormTicketModal implements OnInit {
       this.listCategories = response.data.content;
       console.log(this.listCategories)
     },error => console.log(error));
+  }
 
+  loadSprints(){
     this.sprintService.getSprint().subscribe(response =>{
       this.sprints = response.data.content;
       console.log(this.sprints)
+      let sprintDefaultId = localStorage.getItem('gestion-soporte-ti-default-sprint')
+      if (sprintDefaultId == undefined || sprintDefaultId == '' || sprintDefaultId == null) {
+        this.sprintDefalut = this.sprints[0];
+      } else {
+        this.sprintDefalut.id = Number(sprintDefaultId);
+      }
     },error => console.log(error));
   }
 
+  loadPersons() {
+    this.personService.getPersons().subscribe(result => {
+      this.persons = result.data.content;
+      let personDefaultId = localStorage.getItem('gestion-soporte-ti-default-person')
+      if (personDefaultId == undefined || personDefaultId == '' || personDefaultId == null) {
+        this.personDefault = this.persons[0];
+      } else {
+        this.personDefault.id = Number(personDefaultId);
+      }
+
+      console.log(this.sprintDefalut.id);
+      console.log(this.personDefault.id);
+    },error => console.log(error));
+  }
+
+  selectPerson(event:Event) {
+    console.log((event.target as HTMLSelectElement).value);
+    this.personDefault.id =  Number((event.target as HTMLSelectElement).value);
+  }
+  
     formSubmit(idProject: number, idSprint:number) {
       this.ticket.project = idProject;
       this.ticket.status = EnumStatus.NEW;
       this.ticket.sprint = idSprint;
+      this.ticket.assignedTo = this.personDefault.id;
 
       console.log(this.ticket);
 

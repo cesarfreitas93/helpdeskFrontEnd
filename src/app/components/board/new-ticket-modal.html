@@ -19,6 +19,15 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Persona Asignada</mat-label>
+            <select matNativeControl (change)="selectPerson($event)">
+              <option *ngFor="let option of persons" [value]="option.id"
+                      [selected]="personDefault.id === option.id">{{ option.name }}</option>
+            </select>
+        </mat-form-field>
+
     </div>
 
     <div mat-dialog-actions>

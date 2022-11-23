@@ -1,4 +1,5 @@
 import { NgModule, Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SprintDto } from 'src/app/models/sprint';
@@ -18,7 +19,6 @@ interface Report {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
 
   public chartPie: any;
   sprintDefalut: SprintDto = new SprintDto();
@@ -57,12 +57,19 @@ export class DashboardComponent implements OnInit {
     },error => console.log(error));
   }
 
+  getSprintById(id:number) {
+    this.sprintService.getSprintById(id).subscribe(result => {
+      this.sprintDefalut = result.data;
+    }, error => console.log(error));
+  }
+
   selectSprint(event:Event) {
     this.sprintDefalut.id = Number((event.target as HTMLSelectElement).value);
     localStorage.setItem('gestion-soporte-ti-default-sprint-dashboard', (event.target as HTMLSelectElement).value);
     this.printPieChart(this.sprintDefalut.id);
   }
   printPieChart(sprint:number) {
+    this.getSprintById(sprint);
     this.reportSerice.getReportTaskBySprint(sprint).subscribe(result => {
       this.single = result.data.content;
     },error => console.log(error));

@@ -18,6 +18,11 @@ export class SprintService {
     return this.httpClient.get<Response>(`${baseUrl}/backend/v1/sprint/all`, authOption);
   }
 
+  public getSprintById(id:number): Observable<Response> {
+    const authOption = this.userService.getAuthenticatedHeader();
+    return this.httpClient.get<Response>(`${baseUrl}/backend/v1/sprint/${id}`, authOption);
+  }
+
   public saveSprint(request:SprintDto): Observable<Response> {
     const authOption = this.userService.getAuthenticatedHeader();
     return this.httpClient.post<Response>(`${baseUrl}/backend/v1/sprint`, request, authOption);
